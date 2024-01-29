@@ -1,13 +1,14 @@
 {
     "version": "0.2.0",
     "configurations": [
+    
         {
             "name": "Launch Remote (Edge)",
             "type": "msedge",
             "request": "launch",
             "url": "https://teams.microsoft.com/l/app/${{TEAMS_APP_ID}}?installAppPackage=true&webjoin=true&${account-hint}",
             "presentation": {
-                "group": "3-remote",
+                "group": "remote",
                 "order": 1
             },
             "internalConsoleOptions": "neverOpen"
@@ -18,7 +19,7 @@
             "request": "launch",
             "url": "https://teams.microsoft.com/l/app/${{TEAMS_APP_ID}}?installAppPackage=true&webjoin=true&${account-hint}",
             "presentation": {
-                "group": "3-remote",
+                "group": "remote",
                 "order": 2
             },
             "internalConsoleOptions": "neverOpen"
@@ -35,7 +36,8 @@
                 "group": "all",
                 "hidden": true
             },
-            "internalConsoleOptions": "neverOpen"
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Terminate All Tasks"
         },
         {
             "name": "Launch App (Chrome)",
@@ -49,7 +51,8 @@
                 "group": "all",
                 "hidden": true
             },
-            "internalConsoleOptions": "neverOpen"
+            "internalConsoleOptions": "neverOpen",
+            "postDebugTask": "Terminate All Tasks"
         },
         {
             "name": "Attach to Local Service",
@@ -66,27 +69,27 @@
     ],
     "compounds": [
         {
-            "name": "Debug in Teams (Edge)",
+            "name": "Debug (Edge)",
             "configurations": [
                 "Launch App (Edge)",
                 "Attach to Local Service"
             ],
             "preLaunchTask": "Start Teams App Locally",
             "presentation": {
-                "group": "1-local",
+                "group": "all",
                 "order": 1
             },
             "stopAll": true
         },
         {
-            "name": "Debug in Teams (Chrome)",
+            "name": "Debug (Chrome)",
             "configurations": [
                 "Launch App (Chrome)",
                 "Attach to Local Service"
             ],
             "preLaunchTask": "Start Teams App Locally",
             "presentation": {
-                "group": "1-local",
+                "group": "all",
                 "order": 2
             },
             "stopAll": true
@@ -102,6 +105,6 @@
                 "order": 1
             },
             "stopAll": true
-        },
+        }
     ]
 }

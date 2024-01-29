@@ -11,21 +11,21 @@ provision:
   - uses: teamsApp/create
     with:
       # Teams app name
-      name: sinacor-gpt-teams-v1${{APP_NAME_SUFFIX}}
+      name: app-sinacor-gpt-bot-${{TEAMSFX_ENV}}
     # Write the information of created resources into environment file for
     # the specified environment variable(s).
     writeToEnvironmentFile:
       teamsAppId: TEAMS_APP_ID
 
-  # Create or reuse an existing Microsoft Entra application for bot.
+  # Create or reuse an existing Azure Active Directory application for bot.
   - uses: botAadApp/create
     with:
-      # The Microsoft Entra application's display name
-      name: sinacor-gpt-teams-v1${{APP_NAME_SUFFIX}}
+      # The Azure Active Directory application's display name
+      name: app-sinacor-gpt-bot-${{TEAMSFX_ENV}}
     writeToEnvironmentFile:
-      # The Microsoft Entra application's client id created for bot.
+      # The Azure Active Directory application's client id created for bot.
       botId: BOT_ID
-      # The Microsoft Entra application's client secret created for bot.
+      # The Azure Active Directory application's client secret created for bot.
       botPassword: SECRET_BOT_PASSWORD
 
   - uses: arm/deploy # Deploy given ARM templates parallelly.
@@ -48,10 +48,10 @@ provision:
           # variable before ARM deployment.
           parameters: ./infra/azure.parameters.json
           # Required when deploying ARM template
-          deploymentName: Create-resources-for-bot
+          deploymentName: Create-resources-for-tab
       # Teams Toolkit will download this bicep CLI version from github for you,
       # will use bicep CLI in PATH if you remove this config.
-      bicepCliVersion: v0.9.1
+      bicepCliVersion: v0.24.24
 
   # Validate using manifest schema
   - uses: teamsApp/validateManifest
@@ -110,7 +110,6 @@ publish:
     with:
       # Path to manifest template
       manifestPath: ./appPackage/manifest.json
-  # Build Teams app package with latest env value
   - uses: teamsApp/zipAppPackage
     with:
       # Path to manifest template
@@ -139,4 +138,4 @@ publish:
     # the specified environment variable(s).
     writeToEnvironmentFile:
       publishedAppId: TEAMS_APP_PUBLISHED_APP_ID
-projectId: ceba1e05-b324-4d7e-afd4-722877f00be2
+projectId: 058441c6-217e-4611-aed7-00ad9d2b9cd3

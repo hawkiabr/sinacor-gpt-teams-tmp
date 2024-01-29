@@ -3,24 +3,24 @@
     "manifestVersion": "1.16",
     "version": "1.0.0",
     "id": "${{TEAMS_APP_ID}}",
-    "packageName": "com.microsoft.teams.extension",
+    "packageName": "com.microsoft.teams.demo.openai.search.azure",
     "developer": {
-        "name": "Teams App, Inc.",
-        "websiteUrl": "https://www.example.com",
-        "privacyUrl": "https://www.example.com/termofuse",
-        "termsOfUseUrl": "https://www.example.com/privacy"
+        "name": "Hawkia",
+        "websiteUrl": "https://www.b3.com.br",
+        "privacyUrl": "https://www.b3.com.br/pt_br/solucoes/plataformas/middle-e-backoffice/sinacor/sobre-o-sinacor",
+        "termsOfUseUrl": "https://www.b3.com.br/pt_br/solucoes/plataformas/middle-e-backoffice/sinacor/sobre-o-sinacor"
     },
     "icons": {
-        "color": "color.png",
+        "color": "logo-sinacor-192x192-azul-fundo-branco.png",
         "outline": "outline.png"
     },
     "name": {
-        "short": "sinacor-gpt-teams-v1${{APP_NAME_SUFFIX}}",
-        "full": "full name for sinacor-gpt-teams-v1"
+        "short": "Sinacor GPT",
+        "full": "Sinacor GPT: chatbot com dados do Sinacor"
     },
     "description": {
-        "short": "short description for sinacor-gpt-teams-v1",
-        "full": "full description for sinacor-gpt-teams-v1"
+        "short": "Chatbot com dados do Sinacor",
+        "full": "Converse ou tire dúvidas sobre Sinacor usando modelos do ChatGPT (Azure OpenAI)."
     },
     "accentColor": "#FFFFFF",
     "bots": [
@@ -30,14 +30,27 @@
                 "personal"
             ],
             "supportsFiles": false,
-            "isNotificationOnly": false
+            "isNotificationOnly": false,
+            "commandLists": [
+                {
+                    "scopes": [
+                        "personal"
+                    ],
+                    "commands": [
+                        {
+                            "title": "Novo chat",
+                            "description": "Inicie um novo chat"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "composeExtensions": [],
-    "configurableTabs": [],
     "staticTabs": [],
     "permissions": [
-        "identity"
+        "identity",
+        "messageTeamMembers"
     ],
     "validDomains": []
 }

@@ -1,109 +1,114 @@
-# Overview of the AI Assistant Bot template
+# ChatGPT + Enterprise data with Azure OpenAI and Cognitive Search in Microsoft Teams
 
-This app template is built on top of [Teams AI library](https://aka.ms/teams-ai-library) and [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview).
-It showcases how to build an intelligent chat bot in Teams capable of helping users accomplish a specific task using natural language right in the Teams conversations, such as solving a math problem.
+This sample app demonstrates how to use a Microsoft Teams bot to chat with your data using natural language in the flow of work.
 
-- [Overview of the AI Assistant Bot template](#overview-of-the-ai-assistant-bot-template)
-  - [Get started with the AI Assistant Bot template](#get-started-with-the-ai-assistant-bot-template)
-  - [What's included in the template](#whats-included-in-the-template)
-  - [Extend the AI Assistant Bot template with more AI capabilities](#extend-the-ai-assistant-bot-template-with-more-ai-capabilities)
-  - [Additional information and references](#additional-information-and-references)
+It builds on top of the [ChatGPT + Enterprise data with Azure OpenAI and Cognitive Search](https://github.com/Azure-Samples/azure-search-openai-demo) sample.
 
-## Get started with the AI Assistant Bot template
+> [!IMPORTANT]
+> This sample has been tested against the 19th January 2024 [commit](https://github.com/Azure-Samples/azure-search-openai-demo/tree/5e9d142e50a624cd70e42c4c654097e2fb646d36) in the `Azure Search OpenAI Demo` repo
 
-> **Prerequisites**
->
-> To run the AI Assistant Bot template in your local dev machine, you will need:
->
-> - [Node.js](https://nodejs.org/), supported versions: 16, 18
-> - A [Microsoft 365 account for development](https://docs.microsoft.com/microsoftteams/platform/toolkit/accounts)
-> - [Teams Toolkit Visual Studio Code Extension](https://aka.ms/teams-toolkit) version 5.0.0 and higher or [Teams Toolkit CLI](https://aka.ms/teamsfx-cli)
-> - An account with [OpenAI](https://platform.openai.com/).
->
-> **Note**
->
-> The `AssistantsPlanner` in Teams AI Library is currently in preview version.
+![Chat with your data bot in Microsoft Teams](./assets/bot.png)
 
-### Create your own OpenAI Assistant
+This project was built using:
 
-Before running or debugging your bot, please follow these steps to setup your own [OpenAI Assistant](https://platform.openai.com/docs/assistants/overview).
+- [Teams Toolkit v5](https://marketplace.visualstudio.com/items?itemName=TeamsDevApp.ms-teams-vscode-extension), provides tools for building Teams apps, fast.
+- [Teams AI Library](https://www.npmjs.com/package/@microsoft/teams-ai), provides a Microsoft Teams centric approach to building bots.
+- [Adaptive Cards](https://adaptivecards.io), are an open card exchange format enabling developers to exchange UI content in a common and consistent way.
+- [Azurite](https://www.npmjs.com/package/azurite), provides emulation for Azure Storage during development.
 
-**If you haven't setup any Assistant yet**
+## Run locally using Teams Toolkit
 
-> This app template provides script `src/creator.ts` to help create assistant. You can change the instructions and settings in the script to customize the assistant.
-> 
-> After creation, you can change and manage your assistants on [OpenAI](https://platform.openai.com/assistants).
+To run this project locally you will need to:
 
-1. Open terminal and run command `npm install` to install all dependency packages
+> [!NOTE]
+> An Azure subscription is not required to run this sample locally, however you will require a Microsoft 365 tenant that has sideloading enabled.
 
-   ```
-   > npm install
-   ```
-1. After `npm install` completed, run command `npm run assistant:create -- <your-openai-api-key>`
-   ```
-   > npm run assistant:create -- xxxxxx
-   ```
-1. The above command will output something like "*Created a new assistant with an ID of: **asst_xxx...***"
-1. Fill in both OpenAI API Key and the created Assistant ID into `env/.env.*.user`
-   ```
-   SECRET_OPENAI_API_KEY=<your-openai-api-key>
-   SECRET_OPENAI_ASSISTANT_ID=<your-openai-assistant-id>
-   ```
+1. Follow the steps to deploy the [ChatGPT + Enterprise data with Azure OpenAI and Cognitive Search](https://github.com/Azure-Samples/azure-search-openai-demo#getting-started) sample to Azure.
+1. Install Teams Toolkit from the extensions marketplace in VSCode.
+1. Clone/fork this repo to your local machine.
+1. Open the repo folder in VSCode.
+1. Create `env` folder in root of the project.
+1. Create [env.local](#envlocal) and [env.local.user](#envlocaluser) files in `env` folder.
+1. Update `APP_BACKEND_ENDPOINT` variable with the URL to your provisioned backend.
+1. Run Debug session (F5).
 
-**If you already have an Assistant created**
+> [!TIP]
+> [Join](https://developer.microsoft.com/microsoft-365/dev-program?WT.mc_id=m365-00000-garrytrinder) the Microsoft 365 Developer Program and get your _free_ developer instant sandbox with sideloading enabled.
 
-1. Fill in both OpenAI API Key and the created Assistant ID into `env/.env.*.user`
-   ```
-   SECRET_OPENAI_API_KEY=<your-openai-api-key>
-   SECRET_OPENAI_ASSISTANT_ID=<your-openai-assistant-id>
-   ```
+## Deploy to Azure using Teams Toolkit
 
-### Run Teams Bot locally
+To deploy your local project you will need to:
 
-1. First, select the Teams Toolkit icon on the left in the VS Code toolbar.
-1. In the Account section, sign in with your [Microsoft 365 account](https://docs.microsoft.com/microsoftteams/platform/toolkit/accounts) if you haven't already.
-1. Press F5 to start debugging which launches your app in Teams using a web browser. Select `Debug in Teams (Edge)` or `Debug in Teams (Chrome)`.
-1. When Teams launches in the browser, select the Add button in the dialog to install your app to Teams.
-1. You will receive a welcome message from the bot, or send any message to get a response.
+> ![IMPORTANT]
+> An Azure subscription is required to deploy this project to Azure.
 
-**Congratulations**! You are running an application that can now interact with users in Teams:
+1. Create [env.dev](#envdev) and [env.dev.user](#envdevuser) files in `env` folder.
+1. Update `APP_BACKEND_ENDPOINT` variable in `env.dev` with the URL of your provisioned backend.
+1. Open Teams Toolkit from the sidebar in VSCode.
+1. Select `Provision` and follow steps to provision resources in Azure.
+1. Select `Deploy` and follow steps to build and deploy app code to Azure.
+1. Select `Publish` to publish to and approve the app in your Microsoft Teams organizational store.
 
-![ai assistant bot in Teams](https://github.com/OfficeDev/TeamsFx/assets/7642967/21480d90-307d-4074-84e0-c68a20e38134)
+The following resources will be deployed to Azure:
 
-## What's included in the template
+- Azure App Service Plan (B1)
+- Azure Bot Service (Free)
+- Microsoft Entra ID App Reg
+- Azure Storage Account
 
-| Folder       | Contents                                            |
-| - | - |
-| `.vscode`    | VSCode files for debugging                          |
-| `appPackage` | Templates for the Teams application manifest        |
-| `env`        | Environment files                                   |
-| `infra`      | Templates for provisioning Azure resources          |
-| `src`        | The source code for the application                 |
+> [!WARNING]
+> The Azure App Service (B1) and Azure Storage Account resources incur a monthly cost. You should delete these resources when you no longer need them.
 
-The following files can be customized and demonstrate an example implementation to get you started.
+## Reference files
 
-| File                                 | Contents                                           |
-| - | - |
-|`src/index.ts`| Sets up and configures the AI Assistant Bot.|
-|`src/app.ts`| Handles business logics for the AI Assistant Bot.|
-|`src/config.ts`| Defines the environment variables.|
-|`src/creator.ts`| One-time tool to create OpenAI Assistant.|
+### env.local
 
-The following are Teams Toolkit specific project files. You can [visit a complete guide on Github](https://github.com/OfficeDev/TeamsFx/wiki/Teams-Toolkit-Visual-Studio-Code-v5-Guide#overview) to understand how Teams Toolkit works.
+```text
+TEAMSFX_ENV=local
 
-| File                                 | Contents                                           |
-| - | - |
-|`teamsapp.yml`|This is the main Teams Toolkit project file. The project file defines two primary things:  Properties and configuration Stage definitions. |
-|`teamsapp.local.yml`|This overrides `teamsapp.yml` with actions that enable local execution and debugging.|
-|`teamsapp.testtool.yml`|This overrides `teamsapp.yml` with actions that enable local execution and debugging in Teams App Test Tool.|
+BOT_ID=
+TEAMS_APP_ID=
+BOT_DOMAIN=
+BOT_ENDPOINT=
+TEAMS_APP_TENANT_ID=
 
-## Extend the AI Assistant Bot template with more AI capabilities
+BLOB_STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true
+BLOB_STORAGE_CONTAINER_NAME=state
 
-You can follow [Get started with Teams AI library](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/teams%20conversational%20ai/how-conversation-ai-get-started) to extend the AI Assistant Bot template with more AI capabilities.
+APP_BACKEND_ENDPOINT=https://app-backend-{randomid}.azurewebsites.net
+```
 
-## Additional information and references
-- [Teams AI library](https://aka.ms/teams-ai-library)
-- [Teams Toolkit Documentations](https://docs.microsoft.com/microsoftteams/platform/toolkit/teams-toolkit-fundamentals)
-- [Teams Toolkit CLI](https://docs.microsoft.com/microsoftteams/platform/toolkit/teamsfx-cli)
-- [Teams Toolkit Samples](https://github.com/OfficeDev/TeamsFx-Samples)
-- [OpenAI Assistants API](https://platform.openai.com/docs/assistants/overview)
+> [!IMPORTANT]
+> You need to replace the `APP_BACKEND_ENDPOINT` value with the URL of your provisioned backend.
+
+### env.local.user
+
+```text
+SECRET_BOT_PASSWORD=
+```
+
+### env.dev
+
+```text
+TEAMSFX_ENV=dev
+
+AZURE_SUBSCRIPTION_ID=
+AZURE_RESOURCE_GROUP_NAME=
+RESOURCE_SUFFIX=
+
+BOT_ID=
+TEAMS_APP_ID=
+BOT_AZURE_APP_SERVICE_RESOURCE_ID=
+BOT_DOMAIN=
+
+APP_BACKEND_ENDPOINT=https://app-backend-{randomid}.azurewebsites.net
+```
+
+> [!IMPORTANT]
+> You need to replace the `APP_BACKEND_ENDPOINT` value with the URL of your provisioned backend.
+
+### env.dev.user
+
+```text
+SECRET_BOT_PASSWORD=
+```
