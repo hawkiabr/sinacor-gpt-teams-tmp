@@ -1,0 +1,56 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.16",
+    "version": "1.0.0",
+    "id": "${{TEAMS_APP_ID}}",
+    "packageName": "br.com.b3.sinacor.gpt",
+    "developer": {
+        "name": "Hawkia",
+        "websiteUrl": "https://www.b3.com.br",
+        "privacyUrl": "https://www.b3.com.br/pt_br/solucoes/plataformas/middle-e-backoffice/sinacor/sobre-o-sinacor",
+        "termsOfUseUrl": "https://www.b3.com.br/pt_br/solucoes/plataformas/middle-e-backoffice/sinacor/sobre-o-sinacor"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "Sinacor GPT",
+        "full": "Sinacor GPT: chatbot com dados do Sinacor"
+    },
+    "description": {
+        "short": "Chatbot com dados do Sinacor",
+        "full": "Converse ou tire dúvidas sobre Sinacor usando modelos do ChatGPT (Azure OpenAI)."
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [
+        {
+            "botId": "${{BOT_ID}}",
+            "scopes": [
+                "personal"
+            ],
+            "supportsFiles": false,
+            "isNotificationOnly": false,
+            "commandLists": [
+                {
+                    "scopes": [
+                        "personal"
+                    ],
+                    "commands": [
+                        {
+                            "title": "Novo chat",
+                            "description": "Inicie um novo chat"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "composeExtensions": [],
+    "staticTabs": [],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": []
+}
