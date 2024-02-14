@@ -1,0 +1,23 @@
+{
+    "answer": "Os principais componentes do FIXGear são o comunicador e o roteador. O comunicador tem a função de receber mensagens de ordens vindas pelo canal FIX e repassar as mensagens para o roteador. Ele também é responsável por solicitar ao Servidor FIX a retransmissão de mensagens e envio de mensagens das Unidades de Negócio. O FIXGear foi desenvolvido para suportar múltiplas sessões FIX, distribuídas em diversos comunicadores. Já o roteador tem a função de decodificar e direcionar cada mensagem, de acordo com diversos critérios, para a Unidade de Negócio responsável. É possível configurar mais de um roteador, informando quais grupos de 'comunicador-sessão' irão trabalhar nele. **1**",
+    "citations": [
+        {
+            "filename": "1. manual fix gear.pdf",
+            "url": "https://azr-app-dados-dm-sinacor-backend-dev-n.azurewebsites.net/content/1.+manual+fix+gear.pdf"
+        }
+    ],
+    "supportingContent": [
+        {
+            "filename": "manual fix gear.pdf#page=4",
+            "content": "2 Componentes O FIXGear é dividido em componentes que conversam entre si através, principalmente, do componente "Zero MQ", esses componentes são: 1.3 Comunicador O Componente comunicador tem a função de receber mensagens de ordens vindas pelo canal FIX e repassar as mensagens para o roteador. :unselected: O comunicador também é responsável por solicitar ao Servidor FIX à retransmissão de mensagens e envio de mensagens das Unidades de Negócio, atualmente a interface de envio está sendo utilizada para envio de mensagens de alocação. O FIXGear foi desenvolvido para suportar múltiplas sessões FIX, podendo ser estas distribuídas em diversos comunicadores. Data da publicação Informação Pública 4 :unselected: :unselected: :unselected:Manual FIXGEAR SINACOR BM&FBOVESPA A Nova Bolsa 1.3.1 Roteador No FIXGear o Roteador tem a função de decodificar e direcionar cada mensagem, de acordo com diversos critérios, para a Unidade de Negócio responsável. Ao configurar um roteador devem-se informar quais grupos de 'comunicador-sessão' irão trabalhar neste roteador, portanto é possível ter mais de um roteador."
+        },
+        {
+            "filename": "manual fix gear.pdf#page=3",
+            "content": "22</td><td>Logs</td><td>33</td></tr></table> Data da publicação Informação Pública 3Manual FIXGEAR SINACOR BM&FBOVESPA A Nova Bolsa 1 FIXGEAR 1.1 Visão geral e fluxos O FIXGear (Financial Information Exchange Gear) é o módulo do SINACOR responsável por receber do PUMA (Plataforma Unificada de Multi Ativos) as ordens e negócios executados na BM&FBOVESPA. As ordens são enviadas ao SINACOR através do protocolo FIX (http://www.fixtradingcommunity.org/). Abaixo se pode ver uma visão macro da distribuição dos componentes do FIXGear: Sessões Fix Equities DropCopy + Sessões Fix Derivativos DropCopy Fix Gear <table><tr><th></th><th>Sessões Fix Pós-Trade</th></tr><tr><td colSpan=2></td></tr><tr><td>Captura</td><td>Alocação FLUXOS Outros</td></tr><tr><td></td><td>+</td></tr></table> Comunicador Roteador Unidades de Negócio Default HFT Admincon Ordens e Execuções Derivativos System Controller Captura Alocação Negócios Diversos Outros Fluxos Base de Dados 1.2 Componentes O FIXGear é dividido em componentes que conversam entre si através, principalmente, do componente 'Zero MQ', esses componentes são: 1."
+        },
+        {
+            "filename": "ga prime - stvm.pdf#page=2",
+            "content": "- Detalhamento da API Web 2 - SMPFlash distribui para Participante Origem: O iMercado distribuirá as mensagens recebidas pelo B3i para a Origem (DELI) e o Destino (RECE) da transferência via mensageria FIX pela sessão Outros Fluxos (30). Catálogo - iMercado - Mensageria - http://clientes.b3.com.br/pt_br/produtos-e-servicos/material-de-apoio/material-de-apoio- 8AA8DOCD75AFAFFF0176059D59300E2F.htm 3 - FixGear recepciona mensagem sese.037: O FixGear é o sistema do Sinacor responsável pela comunicação com o SMPFlash e recepção das mensagens e distribuição para os sistemas que utilizarão os dados das mensagens. Necessário realizar a configuração do FixGear para a sessão Outros Fluxos (30) do iMercado em: Gerenciador do Servidor de Configurações > Configurações > FixGear > Aba Config. iMercado > Sessão Outros iMercado ? Anexo desconhecido Para as mensagens sese.037, é necessário indicar ao FixGear uma fila do RabbitMQ onde será desviada as mensagens, e os sistemas externos ao Sinacor consultarão as mensagens, indicando que é Visualização 'Externa' e o Tipo de Sessão 'iMercado - Outros Fluxos': Gerenciador do Servidor de Configurações > Configurações > FixGear > Aba Roteamento Broker ?"
+        }
+    ]
+}
