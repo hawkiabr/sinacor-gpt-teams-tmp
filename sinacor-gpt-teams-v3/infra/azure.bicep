@@ -10,14 +10,8 @@ param botAadAppClientId string
 @description('Required by Bot Framework package in your bot project')
 param botAadAppClientSecret string
 
-@secure()
-param openAIKey string
-
-@secure()
-param azureOpenAIKey string
-
-@secure()
-param azureOpenAIEndpoint string
+@description('Used to make calls from the bot to the app backend')
+param appBackendEndpoint string
 
 param webAppSKU string
 
@@ -26,7 +20,26 @@ param botDisplayName string
 
 param serverfarmsName string = resourceBaseName
 param webAppName string = resourceBaseName
+param storageAccountName string = resourceBaseName
+param blobContainerName string = 'state'
 param location string = resourceGroup().location
+
+// create azure storage account
+resource storageAccount 'Microsoft.Storage/storageAccounts@2021-04-01' = {
+  name: resourceBaseName
+  location: location
+  kind: 'StorageV2'
+  sku: {
+    name: 'Standard_LRS'
+  }
+}
+
+resource storageAccountcontainerName 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-02-01' = {
+  name: '${storageAccountName}/default/${blobContainerName}'
+  dependsOn: [
+    storageAccount
+  ]
+}
 
 // Compute resources for your Web App
 resource serverfarm 'Microsoft.Web/serverfarms@2021-02-01' = {
@@ -37,6 +50,8 @@ resource serverfarm 'Microsoft.Web/serverfarms@2021-02-01' = {
     name: webAppSKU
   }
 }
+
+var blobStorageConnectionString = 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
 
 // Web App that hosts your bot
 resource webApp 'Microsoft.Web/sites@2021-02-01' = {
@@ -70,16 +85,16 @@ resource webApp 'Microsoft.Web/sites@2021-02-01' = {
           value: botAadAppClientSecret
         }
         {
-          name: 'OPENAI_API_KEY'
-          value: openAIKey
+          name: 'APP_BACKEND_ENDPOINT'
+          value: appBackendEndpoint
         }
         {
-          name: 'AZURE_OPENAI_API_KEY'
-          value: azureOpenAIKey
+          name: 'BLOB_STORAGE_CONNECTION_STRING'
+          value: blobStorageConnectionString
         }
         {
-          name: 'AZURE_OPENAI_ENDPOINT'
-          value: azureOpenAIEndpoint
+          name: 'BLOB_STORAGE_CONTAINER_NAME'
+          value: blobContainerName
         }
       ]
       ftpsState: 'FtpsOnly'
