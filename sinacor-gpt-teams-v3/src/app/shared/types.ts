@@ -75,7 +75,7 @@ export type ContentFilterResult = {
 };
 
 export type ChatResponseContext = {
-  data_points: string[];
+  data_points: DataPoints;
   followup_questions: string[];
   thoughts: string;
 };

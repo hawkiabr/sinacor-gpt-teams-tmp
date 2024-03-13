@@ -1,24 +1,33 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "resourceBaseName": {
-      "value": "bot${{RESOURCE_SUFFIX}}"
-    },
-    "botAadAppClientId": {
-      "value": "${{BOT_ID}}"
-    },
-    "botAadAppClientSecret": {
-      "value": "${{SECRET_BOT_PASSWORD}}"
-    },
-    "webAppSKU": {
-      "value": "B1"
-    },
-    "botDisplayName": {
-      "value": "sinacor-gpt-teams-v3"
-    },
-    "appBackendEndpoint":{
-      "value": "${{APP_BACKEND_ENDPOINT}}"
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appBackendEndpoint": {
+            "value": "${{APP_BACKEND_ENDPOINT}}"
+        },
+        "appServicePlanName": {
+            "value": "asp-${{RESOURCE_SUFFIX}}"
+        },
+        "botAadAppClientId": {
+            "value": "${{BOT_ID}}"
+        },
+        "botAadAppClientSecret": {
+            "value": "${{SECRET_BOT_PASSWORD}}"
+        },
+        "botDisplayName": {
+            "value": "${{BOT_DISPLAY_NAME}}"
+        },
+        "botServiceName": {
+            "value": "bot-${{RESOURCE_SUFFIX}}"
+        },
+        "resourceBaseName": {
+            "value": "${{RESOURCE_SUFFIX}}"
+        },
+        "webAppName": {
+            "value": "app-${{RESOURCE_SUFFIX}}"
+        },
+        "webAppSKU": {
+            "value": "${{WEB_APP_SKU}}"
+        }
     }
-  }
 }
