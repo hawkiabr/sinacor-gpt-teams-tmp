@@ -1,7 +1,7 @@
 {
     "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
     "manifestVersion": "1.16",
-    "version": "1.0.5",
+    "version": "${{APP_VERSION}}",
     "id": "${{TEAMS_APP_ID}}",
     "packageName": "br.com.b3.sinacor.gpt",
     "developer": {
@@ -20,7 +20,7 @@
     },
     "description": {
         "short": "Chatbot com dados do Sinacor",
-        "full": "Converse ou tire dúvidas sobre Sinacor usando modelos do ChatGPT (Azure OpenAI)."
+        "full": "Converse ou tire dúvidas sobre Sinacor usando modelos ChatGPT (Azure OpenAI)."
     },
     "accentColor": "#FFFFFF",
     "bots": [

@@ -1,87 +1,102 @@
-import {ActivityTypes, TurnContext} from 'botbuilder';
-import {Application} from '@microsoft/teams-ai';
-import {ApplicationTurnState} from '..';
+import { ActivityTypes, AdaptiveCardInvokeValue, TurnContext } from 'botbuilder';
+import { AdaptiveCard, Application } from '@microsoft/teams-ai';
+import { ApplicationTurnState } from '..';
 import {
-  resetConversationHistory,
-  getChatResponse,
-  getCitations,
-  getSupportingContent,
-  isExampleMessage,
-  renderCard,
-  sendAdaptiveCard,
-  replaceCitations,
-  createConversationHistory,
-  addMessageToConversationHistory,
-  convertCitations,
+    resetConversationHistory,
+    getChatResponse,
+    getCitations,
+    getSupportingContent,
+    sendAdaptiveCard,
+    replaceCitations,
+    createConversationHistory,
+    addMessageToConversationHistory,
+    convertCitations,
+    createWelcomeCard,
+    createResponseCard,
 } from '../shared/helpers';
 
-import responseCard from '../shared/cards/response.json';
-import welcomeCard from '../shared/cards/welcome.json';
-
-import {ResponseCard, WelcomeCard} from '../shared/types';
-import {constants} from '../shared/constants';
+import { ActionData, ResponseCard } from '../shared/types';
+import { constants } from '../shared/constants';
 
 const setup = (app: Application) => {
-  app.activity(
-    ActivityTypes.InstallationUpdate,
-    async (context: TurnContext) => {
-      const card = renderCard<WelcomeCard>(welcomeCard, {
-        questions: constants.questions,
-      });
-      await sendAdaptiveCard(context, card);
-    }
-  );
+    app.activity(
+        ActivityTypes.InstallationUpdate,
+        async (context: TurnContext) => {
+            const card = createWelcomeCard(constants.questions);
+            await sendAdaptiveCard(context, card);
+        }
+    );
 
-  app.message(
-    'Novo chat',
-    async (context: TurnContext, state: ApplicationTurnState) => {
-      resetConversationHistory(state);
-      await context.sendActivity(
-        "Novo chat iniciado, mensagens anteriores não serão usadas como contexto para novas consultas."
-      );
-      const card = renderCard<WelcomeCard>(welcomeCard, {
-        questions: constants.questions,
-      });
-      await sendAdaptiveCard(context, card);
-    }
-  );
+    app.message(
+        'Novo chat',
+        async (context: TurnContext, state: ApplicationTurnState) => {
+            resetConversationHistory(state);
+            await context.sendActivity(
+                "Novo chat iniciado, mensagens anteriores não serão usadas como contexto para novas consultas."
+            );
+            const card = createWelcomeCard(constants.questions);
+            await sendAdaptiveCard(context, card);
+        }
+    );
 
-  app.activity(
-    ActivityTypes.Message,
-    async (context: TurnContext, state: ApplicationTurnState) => {
-      if (isExampleMessage(context.activity)) resetConversationHistory(state);
-      const {text} = context.activity;
+    app.adaptiveCards.actionExecute(
+        'example',
+        async (context: TurnContext, state: ApplicationTurnState) => {
+            const { action } = context.activity.value as AdaptiveCardInvokeValue;
+            const { text } = action.data as ActionData;
 
-      createConversationHistory(state);
+            resetConversationHistory(state);
+            await processMessage(text, context, state);
 
-      addMessageToConversationHistory(state, {
+            const card = createWelcomeCard(constants.questions);
+            return card as AdaptiveCard;
+        }
+    );
+
+    app.activity(
+        ActivityTypes.Message,
+        async (context: TurnContext, state: ApplicationTurnState) => {
+            const { text } = context.activity;
+            await processMessage(text, context, state);
+        }
+    );
+};
+
+const processMessage = async (
+    text: string,
+    context: TurnContext,
+    state: ApplicationTurnState
+) => {
+    await context.sendActivity({ type: 'typing' });
+
+    createConversationHistory(state);
+
+    addMessageToConversationHistory(state, {
         content: text,
         role: 'user',
-      });
+    });
 
-      const chatResponse = await getChatResponse(state.conversation.messages);
-      const chatContext = chatResponse.choices[0].context;
-      const {followup_questions} = chatContext;
-      const {data_points} = chatContext;
-      const {message} = chatResponse.choices[0];
+    const chatResponse = await getChatResponse(state.conversation.messages);
+    const chatContext = chatResponse.choices[0].context;
+    const { followup_questions } = chatContext;
+    const { text: data_points } = chatContext.data_points;
+    const { message: reply } = chatResponse.choices[0];
 
-      addMessageToConversationHistory(state, message);
+    addMessageToConversationHistory(state, reply);
 
-      const citationFileReferences = getCitations(message.content);
-      const answer = replaceCitations(citationFileReferences, message.content);
-      const citations = convertCitations(citationFileReferences);
-      const supportingContent = null;//getSupportingContent(data_points);
+    const citationFileReferences = getCitations(reply.content);
+    const answer = replaceCitations(citationFileReferences, reply.content);
+    const citations = convertCitations(citationFileReferences);
+    const supportingContent = getSupportingContent(data_points);
 
-      const data: ResponseCard = {
+    const data: ResponseCard = {
         answer,
         citations,
         supportingContent,
-      };
-      const card = renderCard<ResponseCard>(responseCard, data);
+    };
+    const card = createResponseCard(data);
 
-      await sendAdaptiveCard(context, card, followup_questions);
-    }
-  );
+    await sendAdaptiveCard(context, card, followup_questions);
 };
 
-export {setup};
+export { setup };

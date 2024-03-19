@@ -8,7 +8,7 @@ provision:
   - uses: teamsApp/create
     with:
       # Teams app name
-      name: sinacor-gpt-v1${{APP_NAME_SUFFIX}}
+      name: sinacor-gpt-v1${{TEAMSFX_ENV}}
     # Write the information of created resources into environment file for
     # the specified environment variable(s).
     writeToEnvironmentFile:
@@ -18,7 +18,7 @@ provision:
   - uses: botAadApp/create
     with:
       # The Microsoft Entra application's display name
-      name: sinacor-gpt-v1${{APP_NAME_SUFFIX}}
+      name: sinacor-gpt-v1${{TEAMSFX_ENV}}
     writeToEnvironmentFile:
       # The Microsoft Entra application's client id created for bot.
       botId: BOT_ID
@@ -74,11 +74,9 @@ deploy:
     with:
       target: ./.localConfigs
       envs:
+        BOT_DOMAIN: ${{BOT_DOMAIN}}
         BOT_ID: ${{BOT_ID}}
         BOT_PASSWORD: ${{SECRET_BOT_PASSWORD}}
-        OPENAI_API_KEY: ${{SECRET_OPENAI_API_KEY}}
-        AZURE_OPENAI_API_KEY: ${{SECRET_AZURE_OPENAI_API_KEY}}
-        AZURE_OPENAI_ENDPOINT: ${{SECRET_AZURE_OPENAI_ENDPOINT}}
         BLOB_STORAGE_CONNECTION_STRING: ${{BLOB_STORAGE_CONNECTION_STRING}}
         BLOB_STORAGE_CONTAINER_NAME: ${{BLOB_STORAGE_CONTAINER_NAME}}
         TEAMS_APP_ID: ${{TEAMS_APP_ID}}

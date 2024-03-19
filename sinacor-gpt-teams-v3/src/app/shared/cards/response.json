@@ -34,21 +34,21 @@
                 },
                 {
                     "type": "TextBlock",
-                    "$when": "$count(citations) > 0",
-                    "text": "Citations:",
+                    "$when": "${count(citations) > 0}",
+                    "text": "Referências:",
                     "weight": "Bolder",
                     "wrap": true
                 },
                 {
                     "type": "ActionSet",
-                    "$when": "$count(citations) > 0",
+                    "$when": "${count(citations) > 0}",
                     "actions": [
                         {
                             "type": "Action.OpenUrl",
                             "$data": "${citations}",
                             "title": "${$index + 1}. ${filename}",
                             "url": "${url}",
-                            "tooltip": "Open ${filename}"
+                            "tooltip": "Abrir ${filename}"
                         }
                     ]
                 }
@@ -56,15 +56,15 @@
         },
         {
             "type": "Container",
-            "$when": "$count(citations) > 0",
+            "$when": "${count(citations) > 0}",
             "items": [
                 {
                     "type": "ActionSet",
                     "actions": [
                         {
                             "type": "Action.ShowCard",
-                            "title": "Supporting content",
-                            "tooltip": "Toggle supporting content",
+                            "title": "Conteúdo de apoio",
+                            "tooltip": "Exibir conteúdo de apoio",
                             "card": {
                                 "type": "AdaptiveCard",
                                 "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",

@@ -36,16 +36,13 @@
                     "$data": "${questions}",
                     "actions": [
                         {
-                            "type": "Action.Submit",
+                            "type": "Action.Execute",
                             "title": "${$data}",
                             "tooltip": "${$data}",
+                            "verb": "example",
                             "data": {
-                                "msteams": {
-                                    "type": "messageBack",
-                                    "displayText": "${$data}",
-                                    "text": "${$data}",
-                                    "value": "{ \"messageType\": \"example\" }"
-                                }
+                                "displayText": "${$data}",
+                                "text": "${$data}"
                             }
                         }
                     ]
